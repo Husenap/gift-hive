@@ -15,7 +15,9 @@
     "@convex-dev/auth": "^0.0.80",
     "@heroui/react": "2.7.6-beta.2",
     "convex": "^1.20.0",
+    "framer-motion": "^12.5.0",
     "next": "15.2.2",
+    "next-themes": "^0.4.6",
     "npm-run-all": "^4.1.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
