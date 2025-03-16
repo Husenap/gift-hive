@@ -1,23 +1,52 @@
 "use client";
 
+import { Select, SelectItem, Skeleton } from "@heroui/react";
+import { Computer, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export function ThemeSwitcher() {
-  const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) return null
+  if (!mounted)
+    return <Skeleton className="h-10 w-10 rounded-medium"></Skeleton>;
 
   return (
-    <div>
-      The current theme is: {theme}
-      <button onClick={() => setTheme('light')}>Light Mode</button>
-      <button onClick={() => setTheme('dark')}>Dark Mode</button>
-    </div>
-  )
-};
+    <Select
+      labelPlacement="outside"
+      selectedKeys={[theme || "light"]}
+      selectionMode="single"
+      fullWidth={false}
+      startContent={
+        theme == "light" ? <Sun /> : theme == "dark" ? <Moon /> : <Computer />
+      }
+    >
+      <SelectItem
+        startContent={<Sun />}
+        key="light"
+        onPress={() => setTheme("light")}
+      >
+        Light
+      </SelectItem>
+      <SelectItem
+        startContent={<Moon />}
+        key="dark"
+        onPress={() => setTheme("dark")}
+      >
+        Dark
+      </SelectItem>
+      <SelectItem
+        startContent={<Computer />}
+        key="system"
+        onPress={() => setTheme("system")}
+      >
+        System
+      </SelectItem>
+    </Select>
+  );
+}
