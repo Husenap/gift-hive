@@ -8,14 +8,14 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
   providers: [ConvexCredentials({
     id: provider,
     authorize: async (credentials, ctx) => {
-      const username = credentials.username as string;
+      const username = (credentials.username as string).trim().toLowerCase();
       const secret = credentials.password as string;
       // Sign up logic
       if (credentials.flow === "signUp") {
         const profile = {
           username,
-          firstname: credentials.firstname as string,
-          lastname: credentials.lastname as string,
+          firstname: (credentials.firstname as string).trim(),
+          lastname: (credentials.lastname as string).trim(),
           birthdate: new Date(credentials.birthdate as string).getTime(),
         }
         const created = await createAccount(ctx, {
