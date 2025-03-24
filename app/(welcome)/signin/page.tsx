@@ -1,7 +1,16 @@
 "use client";
 
 import { useAuthActions } from "@convex-dev/auth/react";
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Image, Input } from "@heroui/react";
+import {
+  Avatar,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Image,
+  Input,
+} from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -11,20 +20,20 @@ export default function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   return (
-    <div className="w-full h-screen">
+    <div className="h-screen w-full">
       <Image
         src="/hero.webp"
         alt="Hero background"
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className="absolute inset-0 z-0 h-full w-full object-cover"
         removeWrapper
       />
 
-      <div className="absolute inset-0 bg-background/30 z-0"></div>
+      <div className="bg-background/30 absolute inset-0 z-0"></div>
 
-      <div className="absolute inset-0 flex justify-center items-center p-2 z-50">
+      <div className="absolute inset-0 z-50 flex items-center justify-center p-2">
         <Card>
           <CardHeader>
-            <div className="flex flex-col gap-2 items-center justify-center w-full">
+            <div className="flex w-full flex-col items-center justify-center gap-2">
               <Avatar src="/icon4.png" size="lg"></Avatar>
               <h1 className="text-2xl font-bold">
                 {flow === "signIn" ? "Welcome Back!" : "Welcome to the Hive!"}
@@ -40,7 +49,7 @@ export default function SignIn() {
                 formData.set("flow", flow);
                 try {
                   await signIn("gift-hive", formData);
-                  router.push("/");
+                  router.push("/profile");
                 } catch (error) {
                   if (error instanceof Error) {
                     setError(error.message);
@@ -48,12 +57,7 @@ export default function SignIn() {
                 }
               }}
             >
-              <Input
-                type="text"
-                name="username"
-                label="Username"
-                isRequired
-              />
+              <Input type="text" name="username" label="Username" isRequired />
               <Input
                 type="password"
                 name="password"
@@ -85,15 +89,12 @@ export default function SignIn() {
                   />
                 </>
               )}
-              <Button
-                color="primary"
-                type="submit"
-              >
+              <Button color="primary" type="submit">
                 {flow === "signIn" ? "Sign in" : "Sign up"}
               </Button>
 
               {error && (
-                <div className="bg-red-500/20 border-2 border-red-500/50 rounded-md p-2">
+                <div className="rounded-md border-2 border-red-500/50 bg-red-500/20 p-2">
                   <p className="text-foreground font-mono text-xs">
                     Error signing in: {error}
                   </p>
@@ -108,8 +109,10 @@ export default function SignIn() {
                     : "Already have an account?"}
                 </span>
                 <span
-                  className="text-foreground underline hover:no-underline cursor-pointer"
-                  onClick={() => setFlow(flow === "signIn" ? "signUp" : "signIn")}
+                  className="text-foreground cursor-pointer underline hover:no-underline"
+                  onClick={() =>
+                    setFlow(flow === "signIn" ? "signUp" : "signIn")
+                  }
                 >
                   {flow === "signIn" ? "Sign up instead" : "Sign in instead"}
                 </span>

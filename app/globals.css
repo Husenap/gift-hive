@@ -19,3 +19,15 @@
     border-color: var(--color-gray-200, currentColor);
   }
 }
+
+@layer utilities {
+  .iphone-safe-inset {
+    padding-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  html::before {
+    content: "";
+    @apply fixed h-full w-full bg-background;
+  }
+}
