@@ -5,7 +5,7 @@ import {
 } from "@convex-dev/auth/nextjs/server";
 
 const isPublicRoute = createRouteMatcher(["/signin"]);
-const isProtectedRoute = createRouteMatcher(["/profile", "/hives"]);
+const isProtectedRoute = createRouteMatcher(["/profile(.*)", "/hives(.*)"]);
 
 export default convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
   if (isPublicRoute(request)) return;
