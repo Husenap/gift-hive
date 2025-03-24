@@ -19,7 +19,7 @@ export default function Page() {
   const onCreate = useCallback(async () => {
     const hiveId = await createHive({ name: title, description: description });
     push(`/hives/${hiveId}`);
-  }, [createHive, title, description]);
+  }, [push, createHive, title, description]);
 
   return (
     <PageContainer topNavbar={<Navbar />}>

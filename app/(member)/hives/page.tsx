@@ -27,7 +27,7 @@ function Content() {
   return (
     <>
       {hives.length === 0 ? (
-        <div>You're not a member of any Hives yet.</div>
+        <div>{"You're not a member of any Hives yet."}</div>
       ) : (
         hives.map((hive) => (
           <Button
