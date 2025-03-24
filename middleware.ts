@@ -4,20 +4,24 @@ import {
   nextjsMiddlewareRedirect,
 } from "@convex-dev/auth/nextjs/server";
 
-const isSignInPage = createRouteMatcher(["/signin"]);
-const isProtectedRoute = createRouteMatcher(["/", "/profile", "/hives"]);
+const isPublicRoute = createRouteMatcher(["/signin"]);
+const isProtectedRoute = createRouteMatcher(["/profile", "/hives"]);
 
 export default convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
-  if (isSignInPage(request) && (await convexAuth.isAuthenticated())) {
-    return nextjsMiddlewareRedirect(request, "/profile");
-  }
-  if (isProtectedRoute(request) && !(await convexAuth.isAuthenticated())) {
+  if (isPublicRoute(request)) return;
+
+  const isAuthenticated = await convexAuth.isAuthenticated();
+  const isProtected = isProtectedRoute(request);
+
+  if (!isAuthenticated) {
     return nextjsMiddlewareRedirect(request, "/signin");
+  }
+
+  if (!isProtected && isAuthenticated) {
+    return nextjsMiddlewareRedirect(request, "/profile");
   }
 });
 
 export const config = {
-  // The following matcher runs middleware on all routes
-  // except static assets.
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
